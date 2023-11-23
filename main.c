@@ -324,10 +324,10 @@ int readCardsFromFile(const char* filename, Carta cards[], int* n) { // n = 10 t
     for (int conjunto = 0; conjunto < *n; conjunto++) { // n = 10
         for (int i = 0; i < 10; i++) {
             char corStr[10];
-            char numeroStr[5];
+            char numeroStr[10];
 
             // Leitura de cor e número
-            if (fscanf(file, " (%9[^ ] %[^(])", corStr, numeroStr) != 2) {
+            if (fscanf(file, " (%9[^ ] %[^)])", corStr, numeroStr) != 2) {
                 printf("Erro ao ler a carta %d do conjunto %d.\n", i + 1, conjunto + 1);
                 fclose(file);
                 return 0;
@@ -338,34 +338,74 @@ int readCardsFromFile(const char* filename, Carta cards[], int* n) { // n = 10 t
             // Tradução da cor para o código correspondente
             if (strcmp(corStr, "Azul") == 0) {
                 cards[conjunto * 10 + i].cor = AZUL; // * 10 pq cada conjunto tem 10 cartas
-                cards[conjunto * 10 + i].numero = atoi(numeroStr);
+
+                if (strcmp(numeroStr, "Pular") == 0) {
+                    cards[conjunto * 10 + i].numero = PULAR;
+                } else if (strcmp(numeroStr, "Voltar") == 0) {
+                    cards[conjunto * 10 + i].numero = VOLTAR;
+                } else {
+                    cards[conjunto * 10 + i].numero = atoi(numeroStr);
+                }
+
                 printf("Cor: %d, Numero: %d\n", cards[conjunto * 10 + i].cor, cards[conjunto * 10 + i].numero);
                 printf("oi ");
+
             } else if (strcmp(corStr, "Amarelo") == 0) {
                 cards[conjunto * 10 + i].cor = AMARELO;
-                cards[conjunto * 10 + i].numero = atoi(numeroStr);
+
+                if (strcmp(numeroStr, "Pular") == 0) {
+                    cards[conjunto * 10 + i].numero = PULAR;
+                } else if (strcmp(numeroStr, "Voltar") == 0) {
+                    cards[conjunto * 10 + i].numero = VOLTAR;
+                    printf("lp ");
+                } else {
+                    cards[conjunto * 10 + i].numero = atoi(numeroStr);
+                    printf("pl ");
+                }
+
                 printf("Cor: %d, Numero: %d\n", cards[conjunto * 10 + i].cor, cards[conjunto * 10 + i].numero);
                 printf("ei ");
+
             } else if (strcmp(corStr, "Vermelho") == 0) {
                 cards[conjunto * 10 + i].cor = VERMELHO;
-                cards[conjunto * 10 + i].numero = atoi(numeroStr);
+
+                if (strcmp(numeroStr, "Pular") == 0) {
+                    cards[conjunto * 10 + i].numero = PULAR;
+                } else if (strcmp(numeroStr, "Voltar") == 0) {
+                    cards[conjunto * 10 + i].numero = VOLTAR;
+                } else {
+                    cards[conjunto * 10 + i].numero = atoi(numeroStr);
+                }
+
                 printf("Cor: %d, Numero: %d\n", cards[conjunto * 10 + i].cor, cards[conjunto * 10 + i].numero);
                 printf("ar ");
+
             } else if (strcmp(corStr, "Verde") == 0) {
                 cards[conjunto * 10 + i].cor = VERDE;
-                cards[conjunto * 10 + i].numero = atoi(numeroStr);
+
+                if (strcmp(numeroStr, "Pular") == 0) {
+                    cards[conjunto * 10 + i].numero = PULAR;
+                } else if (strcmp(numeroStr, "Voltar") == 0) {
+                    cards[conjunto * 10 + i].numero = VOLTAR;
+                } else {
+                    cards[conjunto * 10 + i].numero = atoi(numeroStr);
+                }
+
                 printf("Cor: %d, Numero: %d\n", cards[conjunto * 10 + i].cor, cards[conjunto * 10 + i].numero);
                 printf("si ");
+
             } else if (strcmp(corStr, "Preto") == 0) {
                 // Verificar se é uma carta especial ou normal
                 if (strcmp(numeroStr, "Coringa") == 0) {
                     printf("ola ");
                     cards[conjunto * 10 + i].cor = PRETO;
                     cards[conjunto * 10 + i].numero = CORINGA;
+
                 } else if (strcmp(numeroStr, "+4") == 0) {
                     printf("ti ");
                     cards[conjunto * 10 + i].cor = PRETO;
                     cards[conjunto * 10 + i].numero = MAIS_QUATRO;
+
                 } else {
                     // Lidar com outras cartas pretas aqui (pode ser um número ou outro tipo)
                     //cards[conjunto * 10 + i].cor = PRETO;
@@ -380,7 +420,7 @@ int readCardsFromFile(const char* filename, Carta cards[], int* n) { // n = 10 t
                 }
             } else {
                 // Se não é preto, então é uma carta normal com número
-                cards[conjunto * 10 + i].numero = atoi(numeroStr);
+                //cards[conjunto * 10 + i].numero = atoi(numeroStr);
                 printf("num ");
             }
         }
@@ -486,7 +526,7 @@ int main() {
         escolherAlgoritmo(cards, n, opcaoAlgoritmo);
 
     } else if (modo == 2) {
-        if (!readCardsFromFile("teste.txt", cards, &n)) {
+        if (!readCardsFromFile("teste2.txt", cards, &n)) {
             return 1;
         }
 
