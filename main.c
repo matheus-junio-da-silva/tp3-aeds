@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <windows.h>
 
 #define VERDE 0
 #define AMARELO 1
@@ -33,6 +34,8 @@ const char* nomeCor(int cor) {
             return "Vermelho";
         case AZUL:
             return "Azul";
+        case PRETO:
+            return "Preto";
         default:
             return "Cor Inválida";
     }
@@ -43,7 +46,7 @@ void printCardsColumns(Carta cards[], int n) {
     for (int i = 0; i < n; i++) {
         printf("[%d]%s ", i + 1, nomeCor(cards[i].cor));
 
-        if (cards[i].numero >= 1 && cards[i].numero <= 9) {
+        if (cards[i].numero >= 0 && cards[i].numero <= 9) {
             printf("%d", cards[i].numero);
         } else {
             switch (cards[i].numero) {
@@ -55,6 +58,12 @@ void printCardsColumns(Carta cards[], int n) {
                     break;
                 case 12:
                     printf("+2");
+                    break;
+                case 13:
+                    printf("Coringa");
+                    break;
+                case 14:
+                    printf("+4");
                     break;
                 default:
                     printf("Erro: Numero invalido");
@@ -343,6 +352,8 @@ int readCardsFromFile(const char* filename, Carta cards[], int* n) { // n = 10 t
                     cards[conjunto * 10 + i].numero = PULAR;
                 } else if (strcmp(numeroStr, "Voltar") == 0) {
                     cards[conjunto * 10 + i].numero = VOLTAR;
+                } else if (strcmp(numeroStr, "+2") == 0) {
+                    cards[conjunto * 10 + i].numero = MAIS_DOIS;
                 } else {
                     cards[conjunto * 10 + i].numero = atoi(numeroStr);
                 }
@@ -358,6 +369,8 @@ int readCardsFromFile(const char* filename, Carta cards[], int* n) { // n = 10 t
                 } else if (strcmp(numeroStr, "Voltar") == 0) {
                     cards[conjunto * 10 + i].numero = VOLTAR;
                     printf("lp ");
+                } else if (strcmp(numeroStr, "+2") == 0) {
+                    cards[conjunto * 10 + i].numero = MAIS_DOIS;
                 } else {
                     cards[conjunto * 10 + i].numero = atoi(numeroStr);
                     printf("pl ");
@@ -373,6 +386,8 @@ int readCardsFromFile(const char* filename, Carta cards[], int* n) { // n = 10 t
                     cards[conjunto * 10 + i].numero = PULAR;
                 } else if (strcmp(numeroStr, "Voltar") == 0) {
                     cards[conjunto * 10 + i].numero = VOLTAR;
+                } else if (strcmp(numeroStr, "+2") == 0) {
+                    cards[conjunto * 10 + i].numero = MAIS_DOIS;
                 } else {
                     cards[conjunto * 10 + i].numero = atoi(numeroStr);
                 }
@@ -387,6 +402,8 @@ int readCardsFromFile(const char* filename, Carta cards[], int* n) { // n = 10 t
                     cards[conjunto * 10 + i].numero = PULAR;
                 } else if (strcmp(numeroStr, "Voltar") == 0) {
                     cards[conjunto * 10 + i].numero = VOLTAR;
+                } else if (strcmp(numeroStr, "+2") == 0) {
+                    cards[conjunto * 10 + i].numero = MAIS_DOIS;
                 } else {
                     cards[conjunto * 10 + i].numero = atoi(numeroStr);
                 }
@@ -488,7 +505,35 @@ void escolherAlgoritmo(Carta cards[], int n, int opcao) {
     printf("Numero de Movimentacoes: %lld\n", movimentacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
 }
+
+//Função gotoxy
+void gotoxy(int x, int y)
+{
+  COORD coord;
+  coord.X = x;
+  coord.Y = y;
+  //SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
+
 int main() {
+    printf("\n\n");
+    gotoxy(55,19);
+    printf("       dP     dP 888888ba   .88888.  \n");
+    gotoxy(55,20);
+    printf("       88     88 88    `8b d8'   `8b \n");
+    gotoxy(55,21);
+    printf("       88     88 88     88 88     88          \n");
+    gotoxy(55,22);
+    printf("       88     88 88     88 88     88        \n");
+    gotoxy(55,23);
+    printf("       Y8.   .8P 88     88 Y8.   .8P         \n");
+    gotoxy(55,24);
+    printf("       Y8.   .8P 88     88 Y8.   .8P         \n");
+    gotoxy(55,25);
+    printf("       `Y88888P' dP     dP  `8888P'   \n");
+    gotoxy(55,26);
+    printf("       oooooooooooooooooooooooooooooo     \n\n");
+
     Carta cards[100]; // Ajuste o tamanho conforme necessário
     int n=10, opcaoAlgoritmo; // n = 10 é o tamanho do conjunto
 
