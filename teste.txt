@@ -1,0 +1,5 @@
+3
+(Azul 9) (Azul 4) (Verde 6) (Azul 8) (Amarelo 2) (Vermelho 2) (Verde 3) (Vermelho 3) (Vermelho 6) (Azul 5)
+(Azul 5) (Vermelho 7) (Vermelho 7) (Vermelho 7) (Amarelo 1) (Verde 1) (Amarelo 8) (Verde 1) (Vermelho 3) (Vermelho 7)
+(Vermelho 7) (Azul 2) (Amarelo 3) (Amarelo 2) (Amarelo 6) (Vermelho 7) (Azul 2) (Vermelho 2) (Verde 2) (Verde 5)
+

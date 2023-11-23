@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1700080019 source:c:\users\dudu\onedrive\Área de trabalho\tp3\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+
+1700076812 source:c:\users\dudu\onedrive\Área de trabalho\tp3\untitled1.c
+
+1700757964 source:c:\tp3\tp3\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+
+1700141162 source:c:\tp3\tp3\untitled1.c
+
