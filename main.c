@@ -501,10 +501,112 @@ void escolherAlgoritmo(Carta cards[], int n, int opcao) {
     }
 
     printCardsColumns(cards, n);
-    printf("\nNumero de Comparacoes: %lld\n", comparacoes);
-    printf("Numero de Movimentacoes: %lld\n", movimentacoes);
+    printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
+    printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
 }
+
+void aplicar_algoritmo(Carta cards[], int n) {
+    clock_t start_time, end_time;
+    double elapsed_time;
+    comparacoes = 0;
+    movimentacoes = 0;
+
+    printf("--------------INICIO CONJUNTO.--------------\n");
+
+    start_time = clock();
+    bubbleSort(cards, n);
+    end_time = clock();
+    elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+    printf("\nCartas Ordenadas (Bubble Sort):\n");
+    printCardsColumns(cards, n);
+    printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
+    printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
+    printf("Tempo de execucao: %f segundos\n", elapsed_time);
+
+    comparacoes = 0;
+    movimentacoes = 0;
+    shuffleCards(cards, n);
+    printf("\nCartas embaralhadas:\n");
+    printCardsColumns(cards, n);
+    start_time = clock();
+    quickSort(cards, 0, n - 1);
+    end_time = clock();
+    elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+    printf("\nCartas Ordenadas (Quick Sort):\n");
+    printCardsColumns(cards, n);
+    printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
+    printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
+    printf("Tempo de execucao: %f segundos\n", elapsed_time);
+
+    comparacoes = 0;
+    movimentacoes = 0;
+    shuffleCards(cards, n);
+    printf("\nCartas embaralhadas:\n");
+    printCardsColumns(cards, n);
+    start_time = clock();
+    heapSort(cards, n);
+    end_time = clock();
+    elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+    printf("\nCartas Ordenadas (Heap Sort):\n");
+    printCardsColumns(cards, n);
+    printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
+    printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
+    printf("Tempo de execucao: %f segundos\n", elapsed_time);
+
+    comparacoes = 0;
+    movimentacoes = 0;
+    shuffleCards(cards, n);
+    printf("\nCartas embaralhadas:\n");
+    printCardsColumns(cards, n);
+    start_time = clock();
+    selectionSort(cards, n);
+    end_time = clock();
+    elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+    printf("\nCartas Ordenadas (Selection Sort):\n");
+    printCardsColumns(cards, n);
+    printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
+    printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
+    printf("Tempo de execucao: %f segundos\n", elapsed_time);
+
+    comparacoes = 0;
+    movimentacoes = 0;
+    shuffleCards(cards, n);
+    printf("\nCartas embaralhadas:\n");
+    printCardsColumns(cards, n);
+    start_time = clock();
+    insertionSort(cards, n);
+    end_time = clock();
+    elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+    printf("\nCartas Ordenadas (Insertion Sort):\n");
+    printCardsColumns(cards, n);
+    printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
+    printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
+    printf("Tempo de execucao: %f segundos\n", elapsed_time);
+
+    comparacoes = 0;
+    movimentacoes = 0;
+    shuffleCards(cards, n);
+    printf("\nCartas embaralhadas:\n");
+    printCardsColumns(cards, n);
+    start_time = clock();
+    mergeSort(cards, 0, n - 1);
+    end_time = clock();
+    elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
+    printf("\nCartas Ordenadas (Merge Sort):\n");
+    printCardsColumns(cards, n);
+    printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
+    printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
+    printf("Tempo de execucao: %f segundos\n", elapsed_time);
+
+    printf("--------------FIM CONJUNTO.--------------\n");
+
+    return;
+    }
+
+
+
+
 
 //Função gotoxy
 void gotoxy(int x, int y)
@@ -512,7 +614,6 @@ void gotoxy(int x, int y)
   COORD coord;
   coord.X = x;
   coord.Y = y;
-  //SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
 int main() {
@@ -538,8 +639,10 @@ int main() {
     int n=10, opcaoAlgoritmo; // n = 10 é o tamanho do conjunto
 
     printf("Escolha o modo:\n");
-    printf("1 - Modo Interativo\n");
-    printf("2 - Modo Arquivo\n");
+    printf("1 - (Ponto extra) Modo Interativo: escolher algoritmo individualmente\n");
+    printf("2 - (Ponto extra) Modo Arquivo: Todos conjuntos ordenados juntos\n");
+    printf("3 - Modo Arquivo: Cada conjunto ordenado separadamente aplicando todas ordenacoes\n");
+    printf("4 - Modo Interativo: Aplicando todas ordenacoes no conjunto criado\n");
 
     int modo;
     scanf("%d", &modo);
@@ -596,37 +699,50 @@ int main() {
         scanf("%d", &opcaoAlgoritmo);
         escolherAlgoritmo(cards, n * 10, opcaoAlgoritmo);
 
+    } else if (modo == 3) {
+        if (!readCardsFromFile("teste2.txt", cards, &n)) {
+            return 1;
+        }
+
+
+        // Loop para processar cada conjunto individualmente
+        for (int conjunto = 0; conjunto < n; conjunto++) {
+            printf("\n--------------(Conjunto %d):--------------\n", conjunto + 1);
+            printCardsColumns(cards + conjunto * 10, 10);
+            // Embaralha as cartas do conjunto atual
+            shuffleCards(cards + conjunto * 10, 10);
+
+            printf("\nCartas Embaralhadas (Conjunto %d):\n", conjunto + 1);
+            printCardsColumns(cards + conjunto * 10, 10);
+
+            // Escolhe o algoritmo de ordenação para o conjunto atual
+            printf("\n-------------- APLICANDO ORDENACAO ---------------- \n");
+
+            aplicar_algoritmo(cards + conjunto * 10, 10);
+        }
+
+
+    } else if (modo == 4) {
+        for (int i = 0; i < n; i++) {
+            cards[i] = gerarCartaAleatoria();
+        }
+
+        printf("\nCartas Iniciais:");
+        printf("%d\n", n);
+        printCardsColumns(cards, n);
+
+        // Embaralha as cartas
+        shuffleCards(cards, n);
+        printf("\nCartas Embaralhadas:\n");
+        printCardsColumns(cards, n);
+
+        printf("\n-------------- APLICANDO ORDENACAO ---------------- \n");
+        aplicar_algoritmo(cards, n);
+
     } else {
         printf("Modo inválido. Encerrando o programa.\n");
         return 1;
     }
-    /*
-    printf("\nCartas Iniciais:\n");
-    printf("%d", n * 10);
-    printCardsColumns(cards, n * 10); // n aqui é 3 pelo arquivo * 10 do conjunto
 
-    printf("Cor: %d, Numero: %d\n", cards[0].cor, cards[0].numero);
-    printf("Cor: %d, Numero: %d\n", cards[1].cor, cards[1].numero);
-    printf("Cor: %d, Numero: %d\n", cards[2].cor, cards[2].numero);
-    printf("Cor: %d, Numero: %d\n", cards[3].cor, cards[3].numero);
-    printf("Cor: %d, Numero: %d\n", cards[4].cor, cards[4].numero);
-
-    // Embaralha as cartas
-    shuffleCards(cards, n * 10);
-    printf("\nCartas Embaralhadas:\n");
-    printCardsColumns(cards, n * 10);
-
-    // Escolhe o algoritmo de ordenação
-    printf("\nEscolha o algoritmo de ordenacao:\n");
-    printf("1 - Bubble Sort\n");
-    printf("2 - Quick Sort\n");
-    printf("3 - Heap Sort\n");
-    printf("4 - Selection Sort\n");
-    printf("5 - Insertion Sort\n");
-    printf("6 - Merge Sort\n");
-
-    scanf("%d", &opcaoAlgoritmo);
-    escolherAlgoritmo(cards, n * 10, opcaoAlgoritmo);
-    */
     return 0;
 }

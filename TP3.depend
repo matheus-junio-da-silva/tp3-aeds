@@ -7,11 +7,12 @@
 
 1700076812 source:c:\users\dudu\onedrive\Área de trabalho\tp3\untitled1.c
 
-1700764404 source:c:\tp3\tp3\main.c
+1701127680 source:c:\tp3\tp3\main.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 	<string.h>
+	<windows.h>
 
 1700141162 source:c:\tp3\tp3\untitled1.c
 
