@@ -1,9 +1,48 @@
 # depslib dependency file v1.0
-1700145003 source:c:\users\dudu\onedrive\햞ea de trabalho\tp3\main.c
+1700080019 source:c:\users\dudu\onedrive\햞ea de trabalho\tp3\main.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 	<string.h>
 
 1700076812 source:c:\users\dudu\onedrive\햞ea de trabalho\tp3\untitled1.c
+
+1701127680 source:c:\tp3\tp3\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<windows.h>
+
+1700141162 source:c:\tp3\tp3\untitled1.c
+
+1701287957 source:c:\users\dudu\onedrive\햞ea de trabalho\tp3\tp3_aeds_ordenacao\main.c
+	"cartas.h"
+	"funcoes.c"
+
+1701178877 source:c:\users\dudu\onedrive\햞ea de trabalho\tp3\tp3_aeds_ordenacao\untitled1.c
+
+1701203204 c:\users\dudu\onedrive\햞ea de trabalho\tp3\tp3_aeds_ordenacao\cartas.h
+
+1701287957 c:\users\dudu\onedrive\햞ea de trabalho\tp3\tp3_aeds_ordenacao\funcoes.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<windows.h>
+	"cartas.h"
+
+1701293454 source:c:\users\mathe\downloads\tp3certo2\tp3_aeds_ordenacao\tp3\tp3_aeds_ordenacao\main.c
+	"cartas.h"
+	"funcoes.c"
+
+1701293454 c:\users\mathe\downloads\tp3certo2\tp3_aeds_ordenacao\tp3\tp3_aeds_ordenacao\cartas.h
+
+1701293454 c:\users\mathe\downloads\tp3certo2\tp3_aeds_ordenacao\tp3\tp3_aeds_ordenacao\funcoes.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<windows.h>
+	"cartas.h"
 
