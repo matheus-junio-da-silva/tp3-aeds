@@ -3,6 +3,7 @@
 #include <time.h>
 #include <string.h>
 #include <windows.h>
+#include "cartas.h"
 
 #define VERDE 0
 #define AMARELO 1
@@ -15,11 +16,6 @@
 #define MAIS_DOIS 12
 #define CORINGA 13
 #define MAIS_QUATRO 14
-
-typedef struct {
-    int cor;
-    int numero;
-} Carta;
 
 long long comparacoes = 0;
 long long movimentacoes = 0;
@@ -42,7 +38,7 @@ const char* nomeCor(int cor) {
 }
 
 // Função para imprimir as cartas em colunas
-void printCardsColumns(Carta cards[], int n) {
+void PrintarCartas(Carta cards[], int n) {
     for (int i = 0; i < n; i++) {
         printf("[%d]%s ", i + 1, nomeCor(cards[i].cor));
 
@@ -76,7 +72,7 @@ void printCardsColumns(Carta cards[], int n) {
 }
 
 // Função para embaralhar as cartas
-void shuffleCards(Carta cards[], int n) {
+void embaralhar(Carta cards[], int n) {
     srand(time(NULL));
     for (int i = n - 1; i > 0; i--) {
         int j = rand() % (i + 1);
@@ -99,8 +95,8 @@ Carta gerarCartaAleatoria() {
 // Quick Sort
 void quickSort(Carta cards[], int low, int high);
 
-// Declaração da função partition
-int partition(Carta cards[], int low, int high) {
+// Declaração da função particao
+int particao(Carta cards[], int low, int high) {
     Carta pivot = cards[high];
     int i = low - 1;
 
@@ -149,7 +145,7 @@ void bubbleSort(Carta cards[], int n) {
 // Quick Sort
 void quickSort(Carta cards[], int low, int high) {
     if (low < high) {
-        int pi = partition(cards, low, high);
+        int pi = particao(cards, low, high);
 
         quickSort(cards, low, pi - 1);
         quickSort(cards, pi + 1, high);
@@ -246,69 +242,29 @@ void insertionSort(Carta cards[], int n) {
     }
 }
 
-// Merge Sort
-void merge(Carta cards[], int left, int mid, int right) {
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
+// Sheel Sort
+void shellSort(Carta cards[], int n) {
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+        for (int i = gap; i < n; i++) {
+            Carta temp = cards[i];
+            int j;
 
-    // Cria arrays temporários
-    Carta leftArray[n1], rightArray[n2];
+            for (j = i; j >= gap && (temp.cor < cards[j - gap].cor ||
+                    (temp.cor == cards[j - gap].cor && temp.numero < cards[j - gap].numero)); j -= gap) {
+                comparacoes++;
+                cards[j] = cards[j - gap];
+                movimentacoes++;
+            }
 
-    // Copia os dados para os arrays temporários
-    for (int i = 0; i < n1; i++)
-        leftArray[i] = cards[left + i];
-    for (int j = 0; j < n2; j++)
-        rightArray[j] = cards[mid + 1 + j];
-
-    int i = 0, j = 0, k = left;
-    while (i < n1 && j < n2) {
-        comparacoes++;  // Para cada comparação
-        // Compare primeiro as cores, em caso de igualdade compare os números
-        if (leftArray[i].cor < rightArray[j].cor ||
-            (leftArray[i].cor == rightArray[j].cor && leftArray[i].numero <= rightArray[j].numero)) {
-            cards[k] = leftArray[i];
-            i++;
-        } else {
-            cards[k] = rightArray[j];
-            j++;
+            cards[j] = temp;
+            movimentacoes++;
         }
-        movimentacoes++;  // 1 movimentação foi realizada
-        k++;
-    }
-
-    // Copia os elementos restantes, se houver
-    while (i < n1) {
-        cards[k] = leftArray[i];
-        movimentacoes++;  // 1 movimentação foi realizada
-        i++;
-        k++;
-    }
-
-    while (j < n2) {
-        cards[k] = rightArray[j];
-        movimentacoes++;  // 1 movimentação foi realizada
-        j++;
-        k++;
-    }
-}
-
-void mergeSort(Carta cards[], int left, int right) {
-    if (left < right) {
-        int mid = left + (right - left) / 2;
-
-        // Ordena as duas metades
-        mergeSort(cards, left, mid);
-        mergeSort(cards, mid + 1, right);
-
-        // Junta as duas metades ordenadas
-        merge(cards, left, mid, right);
     }
 }
 
 
 
-
-int readSpecialCard(const char* specialCard) {
+int lerCartaEspecial(const char* specialCard) {
     if (strcmp(specialCard, "Voltar") == 0) {
         return VOLTAR;
     } else if (strcmp(specialCard, "Pular") == 0) {
@@ -321,7 +277,7 @@ int readSpecialCard(const char* specialCard) {
     }
 }
 
-int readCardsFromFile(const char* filename, Carta cards[], int* n) { // n = 10 tamanho do conjunto
+int LerCartasArquivo(const char* filename, Carta cards[], int* n) { // n = 10 tamanho do conjunto
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
@@ -490,17 +446,17 @@ void escolherAlgoritmo(Carta cards[], int n, int opcao) {
             break;
         case 6:
             start_time = clock();
-            mergeSort(cards, 0, n - 1);
+            shellSort(cards, n);
             end_time = clock();
             elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
-            printf("\nCartas Ordenadas (Merge Sort):\n");
+            printf("\nCartas Ordenadas (Sheel Sort):\n");
             break;
         default:
             printf("Opção invalida.\n");
             return;
     }
 
-    printCardsColumns(cards, n);
+    PrintarCartas(cards, n);
     printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
     printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
@@ -519,82 +475,87 @@ void aplicar_algoritmo(Carta cards[], int n) {
     end_time = clock();
     elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
     printf("\nCartas Ordenadas (Bubble Sort):\n");
-    printCardsColumns(cards, n);
+    PrintarCartas(cards, n);
     printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
     printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
 
     comparacoes = 0;
     movimentacoes = 0;
-    shuffleCards(cards, n);
+    embaralhar
+(cards, n);
     printf("\nCartas embaralhadas:\n");
-    printCardsColumns(cards, n);
+    PrintarCartas(cards, n);
     start_time = clock();
     quickSort(cards, 0, n - 1);
     end_time = clock();
     elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
     printf("\nCartas Ordenadas (Quick Sort):\n");
-    printCardsColumns(cards, n);
+    PrintarCartas(cards, n);
     printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
     printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
 
     comparacoes = 0;
     movimentacoes = 0;
-    shuffleCards(cards, n);
+    embaralhar
+(cards, n);
     printf("\nCartas embaralhadas:\n");
-    printCardsColumns(cards, n);
+    PrintarCartas(cards, n);
     start_time = clock();
     heapSort(cards, n);
     end_time = clock();
     elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
     printf("\nCartas Ordenadas (Heap Sort):\n");
-    printCardsColumns(cards, n);
+    PrintarCartas(cards, n);
     printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
     printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
 
     comparacoes = 0;
     movimentacoes = 0;
-    shuffleCards(cards, n);
+    embaralhar
+(cards, n);
     printf("\nCartas embaralhadas:\n");
-    printCardsColumns(cards, n);
+    PrintarCartas(cards, n);
     start_time = clock();
     selectionSort(cards, n);
     end_time = clock();
     elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
     printf("\nCartas Ordenadas (Selection Sort):\n");
-    printCardsColumns(cards, n);
+    PrintarCartas(cards, n);
     printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
     printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
 
     comparacoes = 0;
     movimentacoes = 0;
-    shuffleCards(cards, n);
+    embaralhar
+(cards, n);
     printf("\nCartas embaralhadas:\n");
-    printCardsColumns(cards, n);
+    PrintarCartas(cards, n);
     start_time = clock();
     insertionSort(cards, n);
     end_time = clock();
     elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
     printf("\nCartas Ordenadas (Insertion Sort):\n");
-    printCardsColumns(cards, n);
+    PrintarCartas(cards, n);
     printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
     printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
 
     comparacoes = 0;
     movimentacoes = 0;
-    shuffleCards(cards, n);
+    embaralhar
+(cards, n);
     printf("\nCartas embaralhadas:\n");
-    printCardsColumns(cards, n);
+    PrintarCartas(cards, n);
     start_time = clock();
-    mergeSort(cards, 0, n - 1);
+    shellSort(cards, n);
     end_time = clock();
     elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
-    printf("\nCartas Ordenadas (Merge Sort):\n");
-    printCardsColumns(cards, n);
+    printf("\nCartas Ordenadas (Shell Sort):\n");
+    PrintarCartas(cards, n);
     printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
     printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
@@ -616,133 +577,3 @@ void gotoxy(int x, int y)
   coord.Y = y;
 }
 
-int main() {
-    printf("\n\n");
-    gotoxy(55,19);
-    printf("       dP     dP 888888ba   .88888.  \n");
-    gotoxy(55,20);
-    printf("       88     88 88    `8b d8'   `8b \n");
-    gotoxy(55,21);
-    printf("       88     88 88     88 88     88          \n");
-    gotoxy(55,22);
-    printf("       88     88 88     88 88     88        \n");
-    gotoxy(55,23);
-    printf("       Y8.   .8P 88     88 Y8.   .8P         \n");
-    gotoxy(55,24);
-    printf("       Y8.   .8P 88     88 Y8.   .8P         \n");
-    gotoxy(55,25);
-    printf("       `Y88888P' dP     dP  `8888P'   \n");
-    gotoxy(55,26);
-    printf("       oooooooooooooooooooooooooooooo     \n\n");
-
-    Carta cards[100]; // Ajuste o tamanho conforme necessário
-    int n=10, opcaoAlgoritmo; // n = 10 é o tamanho do conjunto
-
-    printf("Escolha o modo:\n");
-    printf("1 - (Ponto extra) Modo Interativo: escolher algoritmo individualmente\n");
-    printf("2 - (Ponto extra) Modo Arquivo: Todos conjuntos ordenados juntos\n");
-    printf("3 - Modo Arquivo: Cada conjunto ordenado separadamente aplicando todas ordenacoes\n");
-    printf("4 - Modo Interativo: Aplicando todas ordenacoes no conjunto criado\n");
-
-    int modo;
-    scanf("%d", &modo);
-
-    if (modo == 1) {
-        for (int i = 0; i < n; i++) {
-            cards[i] = gerarCartaAleatoria();
-        }
-
-        printf("\nCartas Iniciais:\n");
-        printf("%d", n);
-        printCardsColumns(cards, n);
-
-        // Embaralha as cartas
-        shuffleCards(cards, n);
-        printf("\nCartas Embaralhadas:\n");
-        printCardsColumns(cards, n);
-
-        // Escolhe o algoritmo de ordenação
-        printf("\nEscolha o algoritmo de ordenacao:\n");
-        printf("1 - Bubble Sort\n");
-        printf("2 - Quick Sort\n");
-        printf("3 - Heap Sort\n");
-        printf("4 - Selection Sort\n");
-        printf("5 - Insertion Sort\n");
-        printf("6 - Merge Sort\n");
-
-        scanf("%d", &opcaoAlgoritmo);
-        escolherAlgoritmo(cards, n, opcaoAlgoritmo);
-
-    } else if (modo == 2) {
-        if (!readCardsFromFile("teste2.txt", cards, &n)) {
-            return 1;
-        }
-
-        printf("\nCartas Iniciais:\n");
-        printf("%d", n * 10);
-        printCardsColumns(cards, n * 10); // n aqui é 3 pelo arquivo * 10 do conjunto
-
-        // Embaralha as cartas
-        shuffleCards(cards, n * 10);
-        printf("\nCartas Embaralhadas:\n");
-        printCardsColumns(cards, n * 10);
-
-        // Escolhe o algoritmo de ordenação
-        printf("\nEscolha o algoritmo de ordenacao:\n");
-        printf("1 - Bubble Sort\n");
-        printf("2 - Quick Sort\n");
-        printf("3 - Heap Sort\n");
-        printf("4 - Selection Sort\n");
-        printf("5 - Insertion Sort\n");
-        printf("6 - Merge Sort\n");
-
-        scanf("%d", &opcaoAlgoritmo);
-        escolherAlgoritmo(cards, n * 10, opcaoAlgoritmo);
-
-    } else if (modo == 3) {
-        if (!readCardsFromFile("teste2.txt", cards, &n)) {
-            return 1;
-        }
-
-
-        // Loop para processar cada conjunto individualmente
-        for (int conjunto = 0; conjunto < n; conjunto++) {
-            printf("\n--------------(Conjunto %d):--------------\n", conjunto + 1);
-            printCardsColumns(cards + conjunto * 10, 10);
-            // Embaralha as cartas do conjunto atual
-            shuffleCards(cards + conjunto * 10, 10);
-
-            printf("\nCartas Embaralhadas (Conjunto %d):\n", conjunto + 1);
-            printCardsColumns(cards + conjunto * 10, 10);
-
-            // Escolhe o algoritmo de ordenação para o conjunto atual
-            printf("\n-------------- APLICANDO ORDENACAO ---------------- \n");
-
-            aplicar_algoritmo(cards + conjunto * 10, 10);
-        }
-
-
-    } else if (modo == 4) {
-        for (int i = 0; i < n; i++) {
-            cards[i] = gerarCartaAleatoria();
-        }
-
-        printf("\nCartas Iniciais:");
-        printf("%d\n", n);
-        printCardsColumns(cards, n);
-
-        // Embaralha as cartas
-        shuffleCards(cards, n);
-        printf("\nCartas Embaralhadas:\n");
-        printCardsColumns(cards, n);
-
-        printf("\n-------------- APLICANDO ORDENACAO ---------------- \n");
-        aplicar_algoritmo(cards, n);
-
-    } else {
-        printf("Modo inválido. Encerrando o programa.\n");
-        return 1;
-    }
-
-    return 0;
-}
