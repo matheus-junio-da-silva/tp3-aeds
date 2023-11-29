@@ -37,8 +37,8 @@ int main() {
             cards[i] = gerarCartaAleatoria();
         }
 
-        printf("\nCartas Iniciais:\n");
-        printf("%d", n);
+        printf("\nCartas Iniciais:");
+        printf("%d\n", n);
         PrintarCartas(cards, n);
 
         // Embaralha as cartas
@@ -63,8 +63,8 @@ int main() {
             return 1;
         }
 
-        printf("\nCartas Iniciais:\n");
-        printf("%d", n * 10);
+        printf("\nCartas Iniciais:");
+        printf("%d\n", n * 10);
         PrintarCartas(cards, n * 10); // n aqui é 3 pelo arquivo * 10 do conjunto
 
         // Embaralha as cartas

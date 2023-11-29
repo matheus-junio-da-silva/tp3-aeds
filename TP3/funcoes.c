@@ -298,7 +298,7 @@ int LerCartasArquivo(const char* filename, Carta cards[], int* n) { // n = 10 ta
                 return 0;
             }
 
-            printf("corStr: %s, numeroStr: %s\n", corStr, numeroStr);
+            //printf("corStr: %s, numeroStr: %s\n", corStr, numeroStr);
 
             // Tradução da cor para o código correspondente
             if (strcmp(corStr, "Azul") == 0) {
@@ -314,8 +314,8 @@ int LerCartasArquivo(const char* filename, Carta cards[], int* n) { // n = 10 ta
                     cards[conjunto * 10 + i].numero = atoi(numeroStr);
                 }
 
-                printf("Cor: %d, Numero: %d\n", cards[conjunto * 10 + i].cor, cards[conjunto * 10 + i].numero);
-                printf("oi ");
+                //printf("Cor: %d, Numero: %d\n", cards[conjunto * 10 + i].cor, cards[conjunto * 10 + i].numero);
+
 
             } else if (strcmp(corStr, "Amarelo") == 0) {
                 cards[conjunto * 10 + i].cor = AMARELO;
@@ -324,16 +324,16 @@ int LerCartasArquivo(const char* filename, Carta cards[], int* n) { // n = 10 ta
                     cards[conjunto * 10 + i].numero = PULAR;
                 } else if (strcmp(numeroStr, "Voltar") == 0) {
                     cards[conjunto * 10 + i].numero = VOLTAR;
-                    printf("lp ");
+
                 } else if (strcmp(numeroStr, "+2") == 0) {
                     cards[conjunto * 10 + i].numero = MAIS_DOIS;
                 } else {
                     cards[conjunto * 10 + i].numero = atoi(numeroStr);
-                    printf("pl ");
+
                 }
 
-                printf("Cor: %d, Numero: %d\n", cards[conjunto * 10 + i].cor, cards[conjunto * 10 + i].numero);
-                printf("ei ");
+                //printf("Cor: %d, Numero: %d\n", cards[conjunto * 10 + i].cor, cards[conjunto * 10 + i].numero);
+
 
             } else if (strcmp(corStr, "Vermelho") == 0) {
                 cards[conjunto * 10 + i].cor = VERMELHO;
@@ -348,8 +348,8 @@ int LerCartasArquivo(const char* filename, Carta cards[], int* n) { // n = 10 ta
                     cards[conjunto * 10 + i].numero = atoi(numeroStr);
                 }
 
-                printf("Cor: %d, Numero: %d\n", cards[conjunto * 10 + i].cor, cards[conjunto * 10 + i].numero);
-                printf("ar ");
+                //printf("Cor: %d, Numero: %d\n", cards[conjunto * 10 + i].cor, cards[conjunto * 10 + i].numero);
+
 
             } else if (strcmp(corStr, "Verde") == 0) {
                 cards[conjunto * 10 + i].cor = VERDE;
@@ -364,18 +364,18 @@ int LerCartasArquivo(const char* filename, Carta cards[], int* n) { // n = 10 ta
                     cards[conjunto * 10 + i].numero = atoi(numeroStr);
                 }
 
-                printf("Cor: %d, Numero: %d\n", cards[conjunto * 10 + i].cor, cards[conjunto * 10 + i].numero);
-                printf("si ");
+                //printf("Cor: %d, Numero: %d\n", cards[conjunto * 10 + i].cor, cards[conjunto * 10 + i].numero);
+
 
             } else if (strcmp(corStr, "Preto") == 0) {
                 // Verificar se é uma carta especial ou normal
                 if (strcmp(numeroStr, "Coringa") == 0) {
-                    printf("ola ");
+
                     cards[conjunto * 10 + i].cor = PRETO;
                     cards[conjunto * 10 + i].numero = CORINGA;
 
                 } else if (strcmp(numeroStr, "+4") == 0) {
-                    printf("ti ");
+
                     cards[conjunto * 10 + i].cor = PRETO;
                     cards[conjunto * 10 + i].numero = MAIS_QUATRO;
 
@@ -394,7 +394,7 @@ int LerCartasArquivo(const char* filename, Carta cards[], int* n) { // n = 10 ta
             } else {
                 // Se não é preto, então é uma carta normal com número
                 //cards[conjunto * 10 + i].numero = atoi(numeroStr);
-                printf("num ");
+
             }
         }
     }
@@ -457,8 +457,8 @@ void escolherAlgoritmo(Carta cards[], int n, int opcao) {
     }
 
     PrintarCartas(cards, n);
-    printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
-    printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
+    printf("\nNumero de Comparacoes: %I64d\n", movimentacoes);
+    printf("Numero de Movimentacoes: %I64d\n", comparacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
 }
 
@@ -476,8 +476,8 @@ void aplicar_algoritmo(Carta cards[], int n) {
     elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
     printf("\nCartas Ordenadas (Bubble Sort):\n");
     PrintarCartas(cards, n);
-    printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
-    printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
+    printf("\nNumero de Comparacoes: %I64d\n", movimentacoes);
+    printf("Numero de Movimentacoes: %I64d\n", comparacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
 
     comparacoes = 0;
@@ -492,8 +492,8 @@ void aplicar_algoritmo(Carta cards[], int n) {
     elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
     printf("\nCartas Ordenadas (Quick Sort):\n");
     PrintarCartas(cards, n);
-    printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
-    printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
+    printf("\nNumero de Comparacoes: %I64d\n", movimentacoes);
+    printf("Numero de Movimentacoes: %I64d\n", comparacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
 
     comparacoes = 0;
@@ -508,8 +508,8 @@ void aplicar_algoritmo(Carta cards[], int n) {
     elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
     printf("\nCartas Ordenadas (Heap Sort):\n");
     PrintarCartas(cards, n);
-    printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
-    printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
+    printf("\nNumero de Comparacoes: %I64d\n", movimentacoes);
+    printf("Numero de Movimentacoes: %I64d\n", comparacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
 
     comparacoes = 0;
@@ -524,8 +524,8 @@ void aplicar_algoritmo(Carta cards[], int n) {
     elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
     printf("\nCartas Ordenadas (Selection Sort):\n");
     PrintarCartas(cards, n);
-    printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
-    printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
+    printf("\nNumero de Comparacoes: %I64d\n", movimentacoes);
+    printf("Numero de Movimentacoes: %I64d\n", comparacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
 
     comparacoes = 0;
@@ -540,8 +540,8 @@ void aplicar_algoritmo(Carta cards[], int n) {
     elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
     printf("\nCartas Ordenadas (Insertion Sort):\n");
     PrintarCartas(cards, n);
-    printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
-    printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
+    printf("\nNumero de Comparacoes: %I64d\n", movimentacoes);
+    printf("Numero de Movimentacoes: %I64d\n", comparacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
 
     comparacoes = 0;
@@ -556,8 +556,8 @@ void aplicar_algoritmo(Carta cards[], int n) {
     elapsed_time = ((double)(end_time - start_time)) / CLOCKS_PER_SEC;
     printf("\nCartas Ordenadas (Shell Sort):\n");
     PrintarCartas(cards, n);
-    printf("\nNumero de Comparacoes: %I64d\n", comparacoes);
-    printf("Numero de Movimentacoes: %I64d\n", movimentacoes);
+    printf("\nNumero de Comparacoes: %I64d\n", movimentacoes);
+    printf("Numero de Movimentacoes: %I64d\n", comparacoes);
     printf("Tempo de execucao: %f segundos\n", elapsed_time);
 
     printf("--------------FIM CONJUNTO.--------------\n");

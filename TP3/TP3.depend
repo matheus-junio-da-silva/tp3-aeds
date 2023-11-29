@@ -46,3 +46,17 @@
 	<windows.h>
 	"cartas.h"
 
+1701294882 source:c:\users\mathe\downloads\tp3certo2\tp3_aeds_ordenacao\tp3\main.c
+	"cartas.h"
+	"funcoes.c"
+
+1701294323 c:\users\mathe\downloads\tp3certo2\tp3_aeds_ordenacao\tp3\cartas.h
+
+1701295665 c:\users\mathe\downloads\tp3certo2\tp3_aeds_ordenacao\tp3\funcoes.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<windows.h>
+	"cartas.h"
+
